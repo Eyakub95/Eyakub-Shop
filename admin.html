@@ -8,9 +8,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -148,6 +146,7 @@
       color: white;
     }
 
+    #loginMessage,
     #message {
       margin: 10px 0;
       font-weight: bold;
@@ -181,9 +180,17 @@
 <div id="loginBox">
   <h2>Admin Login</h2>
 
-  <input id="email" type="email" placeholder="Admin Email">
+  <input
+    id="email"
+    type="email"
+    placeholder="Admin Email"
+  >
 
-  <input id="password" type="password" placeholder="Password">
+  <input
+    id="password"
+    type="password"
+    placeholder="Password"
+  >
 
   <button onclick="login()">Login</button>
 
@@ -193,64 +200,125 @@
 <div id="adminPanel" class="container hidden">
 
   <div class="card">
+
     <h2 id="formTitle">Add Product</h2>
 
-    <input id="productName" placeholder="Product Name">
+    <input
+      id="productName"
+      placeholder="Product Name"
+    >
 
-    <input id="productPrice" type="number" placeholder="Price">
+    <input
+      id="productPrice"
+      type="number"
+      placeholder="Price"
+    >
 
-    <input id="productImage" placeholder="Image URL">
+    <input
+      id="productImage"
+      placeholder="Image URL"
+    >
 
-    <textarea id="productDescription" placeholder="Product Description"></textarea>
+    <textarea
+      id="productDescription"
+      placeholder="Product Description"
+    ></textarea>
 
-    <button class="save" onclick="saveProduct()">Add Product</button>
+    <button class="save" onclick="saveProduct()">
+      Add Product
+    </button>
 
-    <button id="cancelBtn" class="cancel hidden" onclick="cancelEdit()">
+    <button
+      id="cancelBtn"
+      class="cancel hidden"
+      onclick="cancelEdit()"
+    >
       Cancel Edit
     </button>
 
     <div id="message"></div>
+
   </div>
 
   <div class="card">
+
     <h2>All Products</h2>
-    <div id="products">Loading...</div>
+
+    <div id="products">
+      Loading...
+    </div>
+
   </div>
 
 </div>
 
 <script>
-const SUPABASE_URL = "https://clgysoxpxapznjpaphjn.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_--Www4z8S9xmhkS97i3yXg_jQtZ7kVk";
+
+/* =========================
+   SUPABASE CONFIG
+========================= */
+
+const SUPABASE_URL =
+  "https://txlzoefmytbgacwnomnk.supabase.co";
+
+const SUPABASE_ANON_KEY =
+  "sb_publishable_ohuA86YijZlkQ_H_CJANeA_zZ6S3lT4";
+
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_ANON_KEY
 );
 
+
 let editingId = null;
 
-async function login() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
 
-  const msg = document.getElementById("loginMessage");
+/* =========================
+   LOGIN
+========================= */
+
+async function login() {
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  const msg =
+    document.getElementById("loginMessage");
+
+  if (!email || !password) {
+    msg.textContent =
+      "Email and password are required.";
+    return;
+  }
+
   msg.textContent = "Logging in...";
 
-  const { error } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
+  const { error } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
 
   if (error) {
-    msg.textContent = "Login failed: " + error.message;
+    msg.textContent =
+      "Login failed: " + error.message;
     return;
   }
 
   await checkAdmin();
 }
 
+
+/* =========================
+   CHECK ADMIN
+========================= */
+
 async function checkAdmin() {
+
   const {
     data: { user }
   } = await supabaseClient.auth.getUser();
@@ -260,64 +328,139 @@ async function checkAdmin() {
     return;
   }
 
-  const { data, error } = await supabaseClient
-    .from("admins")
-    .select("is_admin")
-    .eq("id", user.id)
-    .eq("is_admin", true)
-    .maybeSingle();
+  const { data, error } =
+    await supabaseClient
+      .from("admins")
+      .select("is_admin")
+      .eq("id", user.id)
+      .eq("is_admin", true)
+      .maybeSingle();
 
-  if (error || !data) {
+  if (error) {
+
+    console.error(error);
+
     await supabaseClient.auth.signOut();
-    alert("Access denied. You are not an admin.");
+
+    document.getElementById("loginMessage").textContent =
+      "Admin check error: " + error.message;
+
     showLogin();
+
     return;
   }
 
-  document.getElementById("loginBox").classList.add("hidden");
-  document.getElementById("adminHeader").classList.remove("hidden");
-  document.getElementById("adminPanel").classList.remove("hidden");
+  if (!data) {
+
+    await supabaseClient.auth.signOut();
+
+    document.getElementById("loginMessage").textContent =
+      "Access denied. You are not an admin.";
+
+    showLogin();
+
+    return;
+  }
+
+  document
+    .getElementById("loginBox")
+    .classList.add("hidden");
+
+  document
+    .getElementById("adminHeader")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("adminPanel")
+    .classList.remove("hidden");
 
   loadProducts();
 }
 
+
+/* =========================
+   SHOW LOGIN
+========================= */
+
 function showLogin() {
-  document.getElementById("loginBox").classList.remove("hidden");
-  document.getElementById("adminHeader").classList.add("hidden");
-  document.getElementById("adminPanel").classList.add("hidden");
+
+  document
+    .getElementById("loginBox")
+    .classList.remove("hidden");
+
+  document
+    .getElementById("adminHeader")
+    .classList.add("hidden");
+
+  document
+    .getElementById("adminPanel")
+    .classList.add("hidden");
 }
 
+
+/* =========================
+   LOGOUT
+========================= */
+
 async function logout() {
+
   await supabaseClient.auth.signOut();
+
   showLogin();
 }
 
-async function loadProducts() {
-  const box = document.getElementById("products");
 
-  const { data, error } = await supabaseClient
-    .from("products")
-    .select("*")
-    .order("created_at", { ascending: false });
+/* =========================
+   LOAD PRODUCTS
+========================= */
+
+async function loadProducts() {
+
+  const box =
+    document.getElementById("products");
+
+  box.innerHTML = "Loading...";
+
+  const { data, error } =
+    await supabaseClient
+      .from("products")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
 
   if (error) {
-    box.innerHTML = "<p>Error loading products: " + error.message + "</p>";
+
+    box.innerHTML =
+      "<p>Error loading products: " +
+      escapeHtml(error.message) +
+      "</p>";
+
     return;
   }
 
   if (!data || data.length === 0) {
-    box.innerHTML = "<p>No products yet.</p>";
+
+    box.innerHTML =
+      "<p>No products yet.</p>";
+
     return;
   }
 
   box.innerHTML = data.map(product => `
+
     <div class="product">
 
-      <img src="${escapeHtml(product.image_url || "")}"
-           onerror="this.style.display='none'">
+      <img
+        src="${escapeHtml(product.image_url || "")}"
+        onerror="this.style.display='none'"
+      >
 
       <div class="product-info">
-        <h3>${escapeHtml(product.name)}</h3>
+
+        <h3>
+          ${escapeHtml(product.name)}
+        </h3>
 
         <div class="price">
           Price: ${escapeHtml(String(product.price))}
@@ -329,123 +472,233 @@ async function loadProducts() {
 
         <br>
 
-        <button class="edit"
-          onclick='editProduct(${JSON.stringify(product)})'>
+        <button
+          class="edit"
+          onclick='editProduct(${JSON.stringify(product)})'
+        >
           Edit
         </button>
 
-        <button class="delete"
-          onclick="deleteProduct('${product.id}')">
+        <button
+          class="delete"
+          onclick="deleteProduct('${product.id}')"
+        >
           Delete
         </button>
+
       </div>
 
     </div>
+
   `).join("");
 }
 
-async function saveProduct() {
-  const name = document.getElementById("productName").value.trim();
-  const price = document.getElementById("productPrice").value;
-  const image_url = document.getElementById("productImage").value.trim();
-  const description =
-    document.getElementById("productDescription").value.trim();
 
-  const msg = document.getElementById("message");
+/* =========================
+   ADD / UPDATE PRODUCT
+========================= */
+
+async function saveProduct() {
+
+  const name =
+    document.getElementById("productName")
+      .value.trim();
+
+  const price =
+    document.getElementById("productPrice")
+      .value;
+
+  const image_url =
+    document.getElementById("productImage")
+      .value.trim();
+
+  const description =
+    document.getElementById("productDescription")
+      .value.trim();
+
+  const msg =
+    document.getElementById("message");
+
 
   if (!name || !price) {
-    msg.textContent = "Product name and price are required.";
+
+    msg.textContent =
+      "Product name and price are required.";
+
     return;
   }
+
 
   let result;
 
+
   if (editingId) {
-    result = await supabaseClient
-      .from("products")
-      .update({
-        name,
-        price: Number(price),
-        image_url,
-        description
-      })
-      .eq("id", editingId);
+
+    result =
+      await supabaseClient
+        .from("products")
+        .update({
+          name,
+          price: Number(price),
+          image_url,
+          description
+        })
+        .eq("id", editingId);
+
   } else {
-    result = await supabaseClient
-      .from("products")
-      .insert({
-        name,
-        price: Number(price),
-        image_url,
-        description
-      });
+
+    result =
+      await supabaseClient
+        .from("products")
+        .insert({
+          name,
+          price: Number(price),
+          image_url,
+          description
+        });
+
   }
 
+
   if (result.error) {
-    msg.textContent = "Error: " + result.error.message;
+
+    msg.textContent =
+      "Error: " + result.error.message;
+
     return;
   }
 
-  msg.textContent = editingId
-    ? "Product updated successfully!"
-    : "Product added successfully!";
+
+  msg.textContent =
+    editingId
+      ? "Product updated successfully!"
+      : "Product added successfully!";
+
 
   clearForm();
+
   loadProducts();
 }
 
+
+/* =========================
+   EDIT PRODUCT
+========================= */
+
 function editProduct(product) {
+
   editingId = product.id;
 
-  document.getElementById("productName").value = product.name || "";
-  document.getElementById("productPrice").value = product.price || "";
-  document.getElementById("productImage").value = product.image_url || "";
+  document.getElementById("productName").value =
+    product.name || "";
+
+  document.getElementById("productPrice").value =
+    product.price || "";
+
+  document.getElementById("productImage").value =
+    product.image_url || "";
+
   document.getElementById("productDescription").value =
     product.description || "";
 
-  document.getElementById("formTitle").textContent = "Edit Product";
-  document.querySelector(".save").textContent = "Update Product";
-  document.getElementById("cancelBtn").classList.remove("hidden");
+  document.getElementById("formTitle").textContent =
+    "Edit Product";
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  document.querySelector(".save").textContent =
+    "Update Product";
+
+  document
+    .getElementById("cancelBtn")
+    .classList.remove("hidden");
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
+
+/* =========================
+   CANCEL EDIT
+========================= */
+
 function cancelEdit() {
+
   clearForm();
 }
 
+
+/* =========================
+   CLEAR FORM
+========================= */
+
 function clearForm() {
+
   editingId = null;
 
   document.getElementById("productName").value = "";
+
   document.getElementById("productPrice").value = "";
+
   document.getElementById("productImage").value = "";
+
   document.getElementById("productDescription").value = "";
 
-  document.getElementById("formTitle").textContent = "Add Product";
-  document.querySelector(".save").textContent = "Add Product";
-  document.getElementById("cancelBtn").classList.add("hidden");
+  document.getElementById("formTitle").textContent =
+    "Add Product";
+
+  document.querySelector(".save").textContent =
+    "Add Product";
+
+  document
+    .getElementById("cancelBtn")
+    .classList.add("hidden");
 }
 
+
+/* =========================
+   DELETE PRODUCT
+========================= */
+
 async function deleteProduct(id) {
-  if (!confirm("Are you sure you want to delete this product?")) {
+
+  if (
+    !confirm(
+      "Are you sure you want to delete this product?"
+    )
+  ) {
     return;
   }
 
-  const { error } = await supabaseClient
-    .from("products")
-    .delete()
-    .eq("id", id);
+
+  const { error } =
+    await supabaseClient
+      .from("products")
+      .delete()
+      .eq("id", id);
+
 
   if (error) {
-    alert("Delete failed: " + error.message);
+
+    alert(
+      "Delete failed: " +
+      error.message
+    );
+
     return;
   }
+
 
   loadProducts();
 }
 
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
 function escapeHtml(value) {
+
   return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
@@ -454,11 +707,21 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-supabaseClient.auth.getSession().then(({ data }) => {
-  if (data.session) {
-    checkAdmin();
-  }
-});
+
+/* =========================
+   AUTO LOGIN
+========================= */
+
+supabaseClient.auth
+  .getSession()
+  .then(({ data }) => {
+
+    if (data.session) {
+      checkAdmin();
+    }
+
+  });
+
 </script>
 
 </body>
