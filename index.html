@@ -1,774 +1,1243 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#111827">
+<title>Eyakub Shop | Online Shoe Store</title>
 
-  <title>Eyakub Shop - Online Shoe Store</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f6f7f9;
+  color:#111827;
+}
+a{text-decoration:none;color:inherit}
+button,input,select{font:inherit}
 
-  <meta name="description" content="Eyakub Shop - Quality shoes at great prices">
+.topbar{
+  background:#111827;
+  color:white;
+  padding:8px 15px;
+  text-align:center;
+  font-size:13px;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+header{
+  background:white;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 2px 12px #00000012;
+}
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f6f7f9;
-      color: #222;
-    }
+.nav{
+  max-width:1200px;
+  margin:auto;
+  padding:15px;
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
 
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
+.logo{
+  font-size:24px;
+  font-weight:900;
+  color:#111827;
+  white-space:nowrap;
+}
 
-    button {
-      cursor: pointer;
-      border: none;
-    }
+.logo span{color:#f59e0b}
 
-    /* TOP BAR */
-    .topbar {
-      background: #111827;
-      color: white;
-      text-align: center;
-      padding: 9px;
-      font-size: 13px;
-    }
+.search{
+  flex:1;
+  position:relative;
+}
 
-    /* HEADER */
-    header {
-      background: white;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 12px rgba(0,0,0,.08);
-    }
+.search input{
+  width:100%;
+  padding:13px 45px 13px 16px;
+  border:1px solid #ddd;
+  border-radius:30px;
+  outline:none;
+  background:#f8fafc;
+}
 
-    .header-main {
-      max-width: 1200px;
-      margin: auto;
-      padding: 15px 20px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
+.search button{
+  position:absolute;
+  right:5px;
+  top:5px;
+  border:0;
+  background:#111827;
+  color:white;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+}
 
-    .logo {
-      font-size: 25px;
-      font-weight: 800;
-      color: #e11d48;
-      white-space: nowrap;
-    }
+.nav-actions{
+  display:flex;
+  gap:8px;
+}
 
-    .search {
-      flex: 1;
-      display: flex;
-      background: #f3f4f6;
-      border-radius: 8px;
-      overflow: hidden;
-    }
+.icon-btn{
+  border:0;
+  background:#f3f4f6;
+  padding:11px 14px;
+  border-radius:12px;
+  cursor:pointer;
+}
 
-    .search input {
-      width: 100%;
-      border: 0;
-      outline: none;
-      background: transparent;
-      padding: 13px;
-      font-size: 15px;
-    }
+.cart-count{
+  background:#ef4444;
+  color:white;
+  padding:2px 6px;
+  border-radius:20px;
+  font-size:11px;
+}
 
-    .search button {
-      background: #e11d48;
-      color: white;
-      padding: 0 20px;
-      font-size: 16px;
-    }
+.hero{
+  max-width:1200px;
+  margin:20px auto;
+  padding:45px 25px;
+  border-radius:22px;
+  background:linear-gradient(135deg,#111827,#374151);
+  color:white;
+  overflow:hidden;
+}
 
-    .cart-btn {
-      background: #111827;
-      color: white;
-      padding: 12px 16px;
-      border-radius: 8px;
-      white-space: nowrap;
-    }
+.hero h1{
+  font-size:clamp(32px,6vw,58px);
+  max-width:700px;
+  margin-bottom:15px;
+}
 
-    nav {
-      border-top: 1px solid #eee;
-    }
+.hero p{
+  max-width:650px;
+  color:#d1d5db;
+  line-height:1.7;
+  margin-bottom:25px;
+}
 
-    .nav-inner {
-      max-width: 1200px;
-      margin: auto;
-      display: flex;
-      gap: 28px;
-      padding: 12px 20px;
-      font-size: 14px;
-      font-weight: 600;
-    }
+.btn{
+  display:inline-block;
+  border:0;
+  cursor:pointer;
+  padding:13px 20px;
+  border-radius:10px;
+  font-weight:bold;
+}
 
-    .nav-inner a:hover {
-      color: #e11d48;
-    }
+.btn-primary{
+  background:#f59e0b;
+  color:#111827;
+}
 
-    /* HERO */
-    .hero {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 55px 30px;
-      border-radius: 15px;
-      background: linear-gradient(120deg, #111827, #374151);
-      color: white;
-      min-height: 300px;
-      display: flex;
-      align-items: center;
-    }
+.btn-dark{
+  background:#111827;
+  color:white;
+}
 
-    .hero-content {
-      max-width: 600px;
-    }
+.categories{
+  max-width:1200px;
+  margin:20px auto;
+  padding:0 15px;
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+}
 
-    .hero h1 {
-      font-size: 44px;
-      line-height: 1.1;
-      margin-bottom: 15px;
-    }
+.category{
+  white-space:nowrap;
+  border:1px solid #ddd;
+  background:white;
+  padding:11px 18px;
+  border-radius:30px;
+  cursor:pointer;
+}
 
-    .hero p {
-      color: #e5e7eb;
-      line-height: 1.7;
-      margin-bottom: 25px;
-    }
+.category.active{
+  background:#111827;
+  color:white;
+}
 
-    .hero-btn {
-      background: #e11d48;
-      color: white;
-      padding: 14px 25px;
-      border-radius: 8px;
-      font-weight: bold;
-    }
+.section{
+  max-width:1200px;
+  margin:35px auto;
+  padding:0 15px;
+}
 
-    /* CONTAINER */
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-    }
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
 
-    .section-title {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 25px 0 18px;
-    }
+.section-title h2{
+  font-size:25px;
+}
 
-    .section-title h2 {
-      font-size: 24px;
-    }
+.products{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+}
 
-    /* CATEGORIES */
-    .categories {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
-    }
+.card{
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 3px 15px #0000000c;
+  transition:.2s;
+}
 
-    .category {
-      background: white;
-      border-radius: 12px;
-      padding: 25px;
-      text-align: center;
-      font-weight: bold;
-      box-shadow: 0 2px 8px rgba(0,0,0,.05);
-    }
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 25px #00000018;
+}
 
-    .category span {
-      display: block;
-      font-size: 35px;
-      margin-bottom: 10px;
-    }
+.product-img{
+  height:230px;
+  background:#f3f4f6;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  position:relative;
+}
 
-    /* PRODUCTS */
-    .products {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 18px;
-    }
+.product-img img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-    .product {
-      background: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0,0,0,.07);
-      transition: .2s;
-    }
+.badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  background:#ef4444;
+  color:white;
+  padding:5px 8px;
+  border-radius:6px;
+  font-size:11px;
+  font-weight:bold;
+}
 
-    .product:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,.12);
-    }
+.card-body{
+  padding:15px;
+}
 
-    .product-image {
-      width: 100%;
-      height: 230px;
-      background: #f3f4f6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 70px;
-    }
+.card h3{
+  font-size:16px;
+  margin-bottom:8px;
+}
 
-    .product-info {
-      padding: 15px;
-    }
+.rating{
+  color:#f59e0b;
+  font-size:13px;
+  margin-bottom:8px;
+}
 
-    .product-name {
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
+.price{
+  font-size:19px;
+  font-weight:900;
+}
 
-    .stars {
-      color: #f59e0b;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
+.old-price{
+  color:#9ca3af;
+  text-decoration:line-through;
+  font-size:13px;
+  margin-left:5px;
+}
 
-    .old-price {
-      text-decoration: line-through;
-      color: #9ca3af;
-      font-size: 13px;
-    }
+.stock{
+  color:#6b7280;
+  font-size:12px;
+  margin:8px 0;
+}
 
-    .price {
-      color: #e11d48;
-      font-size: 19px;
-      font-weight: 800;
-    }
+.card-actions{
+  display:flex;
+  gap:7px;
+  margin-top:12px;
+}
 
-    .buy-btn {
-      width: 100%;
-      background: #111827;
-      color: white;
-      padding: 11px;
-      border-radius: 7px;
-      margin-top: 12px;
-      font-weight: bold;
-    }
+.card-actions button{
+  flex:1;
+  padding:10px;
+  border-radius:8px;
+  border:0;
+  cursor:pointer;
+  font-weight:bold;
+}
 
-    .buy-btn:hover {
-      background: #e11d48;
-    }
+.details-btn{
+  background:#f3f4f6;
+}
 
-    /* WHATSAPP */
-    .whatsapp {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      background: #25D366;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      box-shadow: 0 5px 15px rgba(0,0,0,.25);
-      z-index: 200;
-    }
+.buy-btn{
+  background:#111827;
+  color:white;
+}
 
-    /* FOOTER */
-    footer {
-      background: #111827;
-      color: white;
-      margin-top: 50px;
-      padding: 45px 20px;
-    }
+.features{
+  max-width:1200px;
+  margin:35px auto;
+  padding:0 15px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+}
 
-    .footer-inner {
-      max-width: 1200px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 40px;
-    }
+.feature{
+  background:white;
+  padding:22px;
+  border-radius:15px;
+  text-align:center;
+}
 
-    footer h3 {
-      margin-bottom: 15px;
-    }
+.feature .emoji{
+  font-size:30px;
+  margin-bottom:10px;
+}
 
-    footer p {
-      color: #cbd5e1;
-      line-height: 1.7;
-    }
+footer{
+  background:#111827;
+  color:white;
+  margin-top:50px;
+  padding:45px 15px 20px;
+}
 
-    footer a {
-      display: block;
-      color: #cbd5e1;
-      margin: 8px 0;
-    }
+.footer-grid{
+  max-width:1200px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:30px;
+}
 
-    footer a:hover {
-      color: white;
-    }
+footer h3{
+  margin-bottom:15px;
+}
 
-    .copyright {
-      text-align: center;
-      border-top: 1px solid #374151;
-      margin-top: 30px;
-      padding-top: 20px;
-      color: #9ca3af;
-    }
+footer p{
+  color:#cbd5e1;
+  line-height:1.7;
+  margin-bottom:8px;
+}
 
-    /* MOBILE */
-    @media(max-width: 800px) {
+footer a{
+  display:block;
+  color:#cbd5e1;
+  margin:8px 0;
+}
 
-      .header-main {
-        flex-wrap: wrap;
-      }
+.copyright{
+  max-width:1200px;
+  margin:30px auto 0;
+  padding-top:20px;
+  border-top:1px solid #374151;
+  text-align:center;
+  color:#94a3b8;
+}
 
-      .logo {
-        width: 100%;
-        text-align: center;
-      }
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:#00000080;
+  z-index:500;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
 
-      .search {
-        width: 100%;
-        order: 3;
-      }
+.modal.show{display:flex}
 
-      .cart-btn {
-        margin-left: auto;
-      }
+.modal-box{
+  background:white;
+  width:100%;
+  max-width:520px;
+  max-height:90vh;
+  overflow:auto;
+  border-radius:18px;
+  padding:20px;
+}
 
-      .nav-inner {
-        overflow-x: auto;
-        white-space: nowrap;
-      }
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
 
-      .hero {
-        margin: 12px;
-        padding: 35px 22px;
-        min-height: 270px;
-      }
+.close{
+  border:0;
+  background:#f3f4f6;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  cursor:pointer;
+}
 
-      .hero h1 {
-        font-size: 32px;
-      }
+.form-group{
+  margin-bottom:13px;
+}
 
-      .categories {
-        grid-template-columns: repeat(2, 1fr);
-      }
+.form-group label{
+  display:block;
+  margin-bottom:6px;
+  font-weight:bold;
+  font-size:13px;
+}
 
-      .products {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:9px;
+  outline:none;
+}
 
-      .product-image {
-        height: 170px;
-      }
+.form-group textarea{
+  min-height:80px;
+  resize:vertical;
+}
 
-      .footer-inner {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.cart-item{
+  display:flex;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #eee;
+}
+
+.cart-item img{
+  width:65px;
+  height:65px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.cart-info{flex:1}
+
+.cart-total{
+  font-size:20px;
+  font-weight:bold;
+  margin:20px 0;
+}
+
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  background:white;
+  padding:50px 20px;
+  border-radius:15px;
+}
+
+.whatsapp{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  width:58px;
+  height:58px;
+  background:#25D366;
+  color:white;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:27px;
+  z-index:200;
+  box-shadow:0 5px 20px #0003;
+}
+
+@media(max-width:900px){
+  .products{grid-template-columns:repeat(3,1fr)}
+  .features{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:650px){
+  .nav{flex-wrap:wrap}
+  .logo{font-size:21px}
+  .search{order:3;flex-basis:100%}
+  .products{grid-template-columns:repeat(2,1fr);gap:10px}
+  .product-img{height:180px}
+  .card-body{padding:11px}
+  .card h3{font-size:14px}
+  .price{font-size:17px}
+  .features{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .hero{margin:10px;padding:30px 20px}
+}
+</style>
 </head>
 
 <body>
 
-  <div class="topbar">
-    🚚 Welcome to Eyakub Shop — Quality Products & Great Prices
+<div class="topbar">
+  🚚 বাংলাদেশে কুরিয়ার ডেলিভারি • 📦 Cash on Delivery • 🔥 নতুন কালেকশন
+</div>
+
+<header>
+  <div class="nav">
+
+    <a href="#" class="logo">
+      Eyakub<span>Shop</span>
+    </a>
+
+    <div class="search">
+      <input id="searchInput" type="search"
+        placeholder="জুতা খুঁজুন...">
+      <button onclick="searchProducts()">⌕</button>
+    </div>
+
+    <div class="nav-actions">
+      <button class="icon-btn" onclick="openCart()">
+        🛒 <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <h1>আপনার স্টাইল, আপনার পছন্দ</h1>
+  <p>
+    Eyakub Shop-এ পাবেন আপনার পছন্দের জুতা।
+    নতুন কালেকশন, আকর্ষণীয় দাম এবং সহজ WhatsApp অর্ডার।
+  </p>
+  <a href="#products" class="btn btn-primary">
+    🛍️ এখনই শপিং করুন
+  </a>
+</section>
+
+<div class="categories">
+  <button class="category active" onclick="filterCategory('All',this)">
+    সব পণ্য
+  </button>
+  <button class="category" onclick="filterCategory('Sneakers',this)">
+    Sneakers
+  </button>
+  <button class="category" onclick="filterCategory('Sports',this)">
+    Sports
+  </button>
+  <button class="category" onclick="filterCategory('Casual',this)">
+    Casual
+  </button>
+  <button class="category" onclick="filterCategory('Formal',this)">
+    Formal
+  </button>
+  <button class="category" onclick="filterCategory('Sandals',this)">
+    Sandals
+  </button>
+</div>
+
+<section class="section" id="products">
+
+  <div class="section-title">
+    <h2>🔥 জনপ্রিয় জুতা</h2>
+    <span id="productCount"></span>
   </div>
 
-  <header>
+  <div class="products" id="productGrid"></div>
 
-    <div class="header-main">
+</section>
 
-      <a href="#" class="logo">
-        Eyakub Shop
-      </a>
+<section class="features">
 
-      <div class="search">
-        <input
-          type="search"
-          id="searchInput"
-          placeholder="Search for shoes..."
-        >
-        <button onclick="searchProducts()">🔍</button>
-      </div>
+  <div class="feature">
+    <div class="emoji">🚚</div>
+    <h3>দ্রুত ডেলিভারি</h3>
+    <p>সুবিধাজনক কুরিয়ার ডেলিভারি</p>
+  </div>
 
-      <button class="cart-btn">
-        🛒 Cart <span id="cartCount">0</span>
-      </button>
+  <div class="feature">
+    <div class="emoji">💵</div>
+    <h3>Cash on Delivery</h3>
+    <p>পণ্য হাতে পেয়ে পেমেন্ট</p>
+  </div>
 
+  <div class="feature">
+    <div class="emoji">📱</div>
+    <h3>WhatsApp Order</h3>
+    <p>সহজে WhatsApp-এ অর্ডার করুন</p>
+  </div>
+
+  <div class="feature">
+    <div class="emoji">🔒</div>
+    <h3>Secure Shopping</h3>
+    <p>নিরাপদ ও সহজ অর্ডার</p>
+  </div>
+
+</section>
+
+</main>
+
+<footer>
+
+<div class="footer-grid">
+
+  <div>
+    <h3>Eyakub Shop</h3>
+    <p>
+      আপনার বিশ্বস্ত অনলাইন শপিং প্ল্যাটফর্ম।
+      বর্তমানে জুতা দিয়ে শুরু করছি এবং ভবিষ্যতে
+      আরও অনেক category যোগ করা হবে।
+    </p>
+  </div>
+
+  <div>
+    <h3>Quick Links</h3>
+    <a href="#products">Products</a>
+    <a href="https://www.facebook.com/profile.php?id=61594226919156"
+       target="_blank">Facebook Page</a>
+  </div>
+
+  <div>
+    <h3>Contact</h3>
+    <p>📱 WhatsApp: +966 56 722 5245</p>
+    <p>💬 WhatsApp-এ অর্ডার করতে নিচের button ব্যবহার করুন।</p>
+  </div>
+
+</div>
+
+<div class="copyright">
+  © 2026 Eyakub Shop. All Rights Reserved.
+</div>
+
+</footer>
+
+<a class="whatsapp"
+   href="https://wa.me/966567225245"
+   target="_blank"
+   aria-label="WhatsApp">
+   ☎
+</a>
+
+<!-- PRODUCT MODAL -->
+
+<div class="modal" id="productModal">
+
+<div class="modal-box">
+
+  <div class="modal-head">
+    <h2 id="modalTitle">Product</h2>
+    <button class="close" onclick="closeModal('productModal')">×</button>
+  </div>
+
+  <img id="modalImage"
+       style="width:100%;height:280px;object-fit:cover;border-radius:12px">
+
+  <div style="margin-top:15px">
+
+    <div class="rating">★★★★★</div>
+
+    <div class="price">
+      <span id="modalPrice"></span>
+      <span class="old-price" id="modalOldPrice"></span>
     </div>
 
-    <nav>
-      <div class="nav-inner">
-        <a href="#">Home</a>
-        <a href="#products">Shoes</a>
-        <a href="#categories">Categories</a>
-        <a href="#new">New Arrivals</a>
-        <a href="#contact">Contact</a>
-      </div>
-    </nav>
-
-  </header>
-
-  <main>
-
-    <section class="hero">
-
-      <div class="hero-content">
-
-        <h1>
-          Step Into Your<br>
-          Perfect Style 👟
-        </h1>
-
-        <p>
-          Discover stylish and comfortable shoes
-          at amazing prices. Shop your favorite
-          products from Eyakub Shop.
-        </p>
-
-        <a href="#products" class="hero-btn">
-          Shop Now
-        </a>
-
-      </div>
-
-    </section>
-
-    <div class="container">
-
-      <section id="categories">
-
-        <div class="section-title">
-          <h2>Shop By Category</h2>
-        </div>
-
-        <div class="categories">
-
-          <div class="category">
-            <span>👟</span>
-            Shoes
-          </div>
-
-          <div class="category">
-            <span>👕</span>
-            Clothing
-          </div>
-
-          <div class="category">
-            <span>⌚</span>
-            Watches
-          </div>
-
-          <div class="category">
-            <span>👜</span>
-            Accessories
-          </div>
-
-        </div>
-
-      </section>
-
-      <section id="products">
-
-        <div class="section-title">
-          <h2>Featured Shoes</h2>
-        </div>
-
-        <div class="products" id="productGrid">
-
-          <div class="product" data-name="Classic Black Sneaker">
-
-            <div class="product-image">
-              👟
-            </div>
-
-            <div class="product-info">
-
-              <div class="product-name">
-                Classic Black Sneaker
-              </div>
-
-              <div class="stars">
-                ★★★★★
-              </div>
-
-              <div>
-                <span class="old-price">SAR 250</span>
-              </div>
-
-              <div class="price">
-                SAR 179
-              </div>
-
-              <button
-                class="buy-btn"
-                onclick="orderWhatsApp('Classic Black Sneaker','179')"
-              >
-                Order Now
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <div class="product" data-name="Premium White Sneaker">
-
-            <div class="product-image">
-              👟
-            </div>
-
-            <div class="product-info">
-
-              <div class="product-name">
-                Premium White Sneaker
-              </div>
-
-              <div class="stars">
-                ★★★★★
-              </div>
-
-              <div>
-                <span class="old-price">SAR 280</span>
-              </div>
-
-              <div class="price">
-                SAR 199
-              </div>
-
-              <button
-                class="buy-btn"
-                onclick="orderWhatsApp('Premium White Sneaker','199')"
-              >
-                Order Now
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <div class="product" data-name="Sport Running Shoe">
-
-            <div class="product-image">
-              👟
-            </div>
-
-            <div class="product-info">
-
-              <div class="product-name">
-                Sport Running Shoe
-              </div>
-
-              <div class="stars">
-                ★★★★★
-              </div>
-
-              <div>
-                <span class="old-price">SAR 320</span>
-              </div>
-
-              <div class="price">
-                SAR 229
-              </div>
-
-              <button
-                class="buy-btn"
-                onclick="orderWhatsApp('Sport Running Shoe','229')"
-              >
-                Order Now
-              </button>
-
-            </div>
-
-          </div>
-
-
-          <div class="product" data-name="Casual Fashion Shoe">
-
-            <div class="product-image">
-              👟
-            </div>
-
-            <div class="product-info">
-
-              <div class="product-name">
-                Casual Fashion Shoe
-              </div>
-
-              <div class="stars">
-                ★★★★★
-              </div>
-
-              <div>
-                <span class="old-price">SAR 220</span>
-              </div>
-
-              <div class="price">
-                SAR 159
-              </div>
-
-              <button
-                class="buy-btn"
-                onclick="orderWhatsApp('Casual Fashion Shoe','159')"
-              >
-                Order Now
-              </button>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </section>
-
+    <p id="modalDescription"
+       style="margin:12px 0;color:#64748b;line-height:1.6"></p>
+
+    <div class="form-group">
+      <label>Size</label>
+      <select id="modalSize">
+        <option>39</option>
+        <option>40</option>
+        <option>41</option>
+        <option>42</option>
+        <option>43</option>
+        <option>44</option>
+      </select>
     </div>
 
-  </main>
-
-
-  <a
-    class="whatsapp"
-    href="https://wa.me/966567225245"
-    target="_blank"
-    aria-label="WhatsApp"
-  >
-    ☎
-  </a>
-
-
-  <footer id="contact">
-
-    <div class="footer-inner">
-
-      <div>
-
-        <h3>Eyakub Shop</h3>
-
-        <p>
-          Your online destination for stylish,
-          comfortable and quality shoes.
-        </p>
-
-      </div>
-
-
-      <div>
-
-        <h3>Quick Links</h3>
-
-        <a href="#">Home</a>
-        <a href="#products">Shoes</a>
-        <a href="#categories">Categories</a>
-
-      </div>
-
-
-      <div>
-
-        <h3>Connect With Us</h3>
-
-        <a
-          href="https://www.facebook.com/profile.php?id=61594226919156"
-          target="_blank"
-        >
-          Facebook Page
-        </a>
-
-        <a
-          href="https://wa.me/966567225245"
-          target="_blank"
-        >
-          WhatsApp
-        </a>
-
-      </div>
-
+    <div class="form-group">
+      <label>Color</label>
+      <select id="modalColor">
+        <option>Black</option>
+        <option>White</option>
+        <option>Blue</option>
+        <option>Red</option>
+      </select>
     </div>
 
+    <button class="btn btn-dark"
+            style="width:100%"
+            onclick="addModalProduct()">
+      🛒 Cart-এ যোগ করুন
+    </button>
 
-    <div class="copyright">
-      © 2026 Eyakub Shop. All Rights Reserved.
-    </div>
+  </div>
 
-  </footer>
+</div>
+</div>
+
+<!-- CART -->
+
+<div class="modal" id="cartModal">
+
+<div class="modal-box">
+
+  <div class="modal-head">
+    <h2>🛒 আপনার Cart</h2>
+    <button class="close" onclick="closeModal('cartModal')">×</button>
+  </div>
+
+  <div id="cartItems"></div>
+
+  <div class="cart-total">
+    Total: <span id="cartTotal">৳0</span>
+  </div>
+
+  <button class="btn btn-primary"
+          style="width:100%"
+          onclick="openCheckout()">
+    অর্ডার করুন
+  </button>
+
+</div>
+</div>
+
+<!-- CHECKOUT -->
+
+<div class="modal" id="checkoutModal">
+
+<div class="modal-box">
+
+  <div class="modal-head">
+    <h2>📝 অর্ডার তথ্য</h2>
+    <button class="close"
+      onclick="closeModal('checkoutModal')">×</button>
+  </div>
+
+  <div class="form-group">
+    <label>আপনার নাম *</label>
+    <input id="customerName" placeholder="সম্পূর্ণ নাম">
+  </div>
+
+  <div class="form-group">
+    <label>ফোন নম্বর *</label>
+    <input id="customerPhone" type="tel"
+      placeholder="01XXXXXXXXX">
+  </div>
+
+  <div class="form-group">
+    <label>WhatsApp নম্বর</label>
+    <input id="customerWhatsapp" type="tel"
+      placeholder="WhatsApp নম্বর">
+  </div>
+
+  <div class="form-group">
+    <label>শহর / জেলা *</label>
+    <input id="customerCity"
+      placeholder="যেমন: ঢাকা">
+  </div>
+
+  <div class="form-group">
+    <label>এলাকা *</label>
+    <input id="customerArea"
+      placeholder="এলাকার নাম">
+  </div>
+
+  <div class="form-group">
+    <label>সম্পূর্ণ ঠিকানা *</label>
+    <textarea id="customerAddress"
+      placeholder="বাড়ি, রোড, এলাকা ইত্যাদি"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>অতিরিক্ত Note</label>
+    <textarea id="customerNote"
+      placeholder="কোনো বিশেষ নির্দেশনা থাকলে লিখুন"></textarea>
+  </div>
+
+  <button class="btn btn-primary"
+          style="width:100%"
+          onclick="sendWhatsAppOrder()">
+    📱 WhatsApp-এ অর্ডার পাঠান
+  </button>
+
+</div>
+</div>
+
+<script>
+
+/* =========================
+   EYAKUB SHOP DEMO PRODUCTS
+   ========================= */
+
+const products = [
+
+{
+ id:1,
+ name:"Premium Classic Sneaker",
+ category:"Sneakers",
+ price:2490,
+ oldPrice:3290,
+ stock:20,
+ image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",
+ description:"Premium everyday sneaker with comfortable design."
+},
+
+{
+ id:2,
+ name:"Urban Running Shoe",
+ category:"Sports",
+ price:2190,
+ oldPrice:2990,
+ stock:15,
+ image:"https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=800",
+ description:"Lightweight sports shoe for daily running."
+},
+
+{
+ id:3,
+ name:"Classic Casual Shoe",
+ category:"Casual",
+ price:1990,
+ oldPrice:2690,
+ stock:25,
+ image:"https://images.unsplash.com/photo-1495555961986-6d4c1ecb7be3?w=800",
+ description:"Stylish casual shoe for everyday use."
+},
+
+{
+ id:4,
+ name:"Premium Formal Shoe",
+ category:"Formal",
+ price:2890,
+ oldPrice:3590,
+ stock:12,
+ image:"https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=800",
+ description:"Elegant formal shoe for special occasions."
+},
+
+{
+ id:5,
+ name:"Comfort Sports Sneaker",
+ category:"Sports",
+ price:2290,
+ oldPrice:3190,
+ stock:18,
+ image:"https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=800",
+ description:"Comfortable sports sneaker."
+},
+
+{
+ id:6,
+ name:"Modern Street Sneaker",
+ category:"Sneakers",
+ price:2590,
+ oldPrice:3390,
+ stock:10,
+ image:"https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=800",
+ description:"Modern streetwear sneaker."
+},
+
+{
+ id:7,
+ name:"Daily Comfort Shoe",
+ category:"Casual",
+ price:1890,
+ oldPrice:2490,
+ stock:30,
+ image:"https://images.unsplash.com/photo-1549298916-b41d501d3772?w=800",
+ description:"Comfortable shoe for daily use."
+},
+
+{
+ id:8,
+ name:"Premium Leather Style",
+ category:"Formal",
+ price:2990,
+ oldPrice:3990,
+ stock:8,
+ image:"https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=800",
+ description:"Premium formal style."
+}
+
+];
+
+let visibleProducts=[...products];
+let cart=[];
+let selectedProduct=null;
 
 
-  <script>
+/* =========================
+   RENDER PRODUCTS
+   ========================= */
 
-    let cartCount = 0;
+function renderProducts(){
 
-    function orderWhatsApp(product, price) {
+ const grid=document.getElementById("productGrid");
 
-      const message =
-        "Hello Eyakub Shop,%0A%0A" +
-        "I want to order:%0A" +
-        "Product: " + product + "%0A" +
-        "Price: SAR " + price + "%0A%0A" +
-        "Please contact me for order details.";
+ document.getElementById("productCount").textContent=
+   visibleProducts.length+" Products";
 
-      window.open(
-        "https://wa.me/966567225245?text=" + message,
-        "_blank"
-      );
+ if(!visibleProducts.length){
 
-    }
+   grid.innerHTML=`
+   <div class="empty">
+     <h3>কোনো Product পাওয়া যায়নি</h3>
+     <p style="margin-top:8px;color:#64748b">
+       অন্য কিছু দিয়ে Search করুন।
+     </p>
+   </div>`;
+
+   return;
+ }
+
+ grid.innerHTML=visibleProducts.map(p=>`
+
+ <div class="card">
+
+   <div class="product-img">
+
+     ${p.oldPrice>p.price
+       ? `<div class="badge">SALE</div>`:""}
+
+     <img src="${p.image}"
+          alt="${p.name}"
+          loading="lazy">
+
+   </div>
+
+   <div class="card-body">
+
+     <h3>${p.name}</h3>
+
+     <div class="rating">★★★★★</div>
+
+     <div class="price">
+       ৳${p.price.toLocaleString()}
+       <span class="old-price">
+         ৳${p.oldPrice.toLocaleString()}
+       </span>
+     </div>
+
+     <div class="stock">
+       📦 Stock: ${p.stock}
+     </div>
+
+     <div class="card-actions">
+
+       <button class="details-btn"
+         onclick="showProduct(${p.id})">
+         Details
+       </button>
+
+       <button class="buy-btn"
+         onclick="quickBuy(${p.id})">
+         Buy
+       </button>
+
+     </div>
+
+   </div>
+
+ </div>
+
+ `).join("");
+
+}
 
 
-    function searchProducts() {
+/* =========================
+   CATEGORY
+   ========================= */
 
-      const search =
-        document
-        .getElementById("searchInput")
-        .value
-        .toLowerCase();
+function filterCategory(category,button){
 
-      const products =
-        document.querySelectorAll(".product");
+ document.querySelectorAll(".category")
+   .forEach(x=>x.classList.remove("active"));
 
-      products.forEach(product => {
+ button.classList.add("active");
 
-        const name =
-          product
-          .getAttribute("data-name")
-          .toLowerCase();
+ if(category==="All"){
+   visibleProducts=[...products];
+ }else{
+   visibleProducts=
+     products.filter(p=>p.category===category);
+ }
 
-        if (name.includes(search)) {
+ renderProducts();
 
-          product.style.display = "";
-
-        } else {
-
-          product.style.display = "none";
-
-        }
-
-      });
-
-    }
+}
 
 
-    document
-      .getElementById("searchInput")
-      .addEventListener(
-        "keyup",
-        searchProducts
-      );
+/* =========================
+   SEARCH
+   ========================= */
 
-  </script>
+function searchProducts(){
+
+ const q=document.getElementById("searchInput")
+   .value.toLowerCase().trim();
+
+ visibleProducts=products.filter(p=>
+   p.name.toLowerCase().includes(q) ||
+   p.category.toLowerCase().includes(q)
+ );
+
+ renderProducts();
+
+ document.getElementById("products")
+   .scrollIntoView({behavior:"smooth"});
+
+}
+
+document.getElementById("searchInput")
+ .addEventListener("keydown",e=>{
+   if(e.key==="Enter") searchProducts();
+ });
+
+
+/* =========================
+   PRODUCT DETAILS
+   ========================= */
+
+function showProduct(id){
+
+ selectedProduct=products.find(p=>p.id===id);
+
+ document.getElementById("modalTitle")
+   .textContent=selectedProduct.name;
+
+ document.getElementById("modalImage").src=
+   selectedProduct.image;
+
+ document.getElementById("modalPrice").textContent=
+   "৳"+selectedProduct.price.toLocaleString();
+
+ document.getElementById("modalOldPrice").textContent=
+   "৳"+selectedProduct.oldPrice.toLocaleString();
+
+ document.getElementById("modalDescription")
+   .textContent=selectedProduct.description;
+
+ document.getElementById("productModal")
+   .classList.add("show");
+
+}
+
+function addModalProduct(){
+
+ if(!selectedProduct)return;
+
+ cart.push({
+   ...selectedProduct,
+   size:document.getElementById("modalSize").value,
+   color:document.getElementById("modalColor").value
+ });
+
+ updateCart();
+
+ closeModal("productModal");
+
+ alert("Product Cart-এ যোগ হয়েছে!");
+
+}
+
+function quickBuy(id){
+
+ showProduct(id);
+
+}
+
+
+/* =========================
+   CART
+   ========================= */
+
+function updateCart(){
+
+ document.getElementById("cartCount")
+   .textContent=cart.length;
+
+}
+
+function openCart(){
+
+ renderCart();
+
+ document.getElementById("cartModal")
+   .classList.add("show");
+
+}
+
+function renderCart(){
+
+ const box=document.getElementById("cartItems");
+
+ if(!cart.length){
+
+   box.innerHTML=`
+   <div class="empty">
+     <h3>Cart খালি</h3>
+     <p style="margin-top:8px;color:#64748b">
+       Product যোগ করুন।
+     </p>
+   </div>`;
+
+   document.getElementById("cartTotal")
+     .textContent="৳0";
+
+   return;
+ }
+
+ box.innerHTML=cart.map((p,i)=>`
+
+ <div class="cart-item">
+
+   <img src="${p.image}">
+
+   <div class="cart-info">
+
+     <strong>${p.name}</strong>
+
+     <div style="font-size:13px;color:#64748b;margin-top:5px">
+       Size: ${p.size || "-"} |
+       Color: ${p.color || "-"}
+     </div>
+
+     <div style="font-weight:bold;margin-top:5px">
+       ৳${p.price.toLocaleString()}
+     </div>
+
+   </div>
+
+   <button
+     onclick="removeCart(${i})"
+     style="border:0;background:#fee2e2;color:#dc2626;
+     width:32px;height:32px;border-radius:7px">
+     ×
+   </button>
+
+ </div>
+
+ `).join("");
+
+ const total=cart.reduce((sum,p)=>sum+p.price,0);
+
+ document.getElementById("cartTotal")
+   .textContent="৳"+total.toLocaleString();
+
+}
+
+function removeCart(index){
+
+ cart.splice(index,1);
+
+ updateCart();
+ renderCart();
+
+}
+
+
+/* =========================
+   CHECKOUT
+   ========================= */
+
+function openCheckout(){
+
+ if(!cart.length){
+   alert("আগে Cart-এ Product যোগ করুন।");
+   return;
+ }
+
+ closeModal("cartModal");
+
+ document.getElementById("checkoutModal")
+   .classList.add("show");
+
+}
+
+function sendWhatsAppOrder(){
+
+ const name=document.getElementById("customerName").value.trim();
+ const phone=document.getElementById("customerPhone").value.trim();
+ const city=document.getElementById("customerCity").value.trim();
+ const area=document.getElementById("customerArea").value.trim();
+ const address=document.getElementById("customerAddress").value.trim();
+
+ if(!name || !phone || !city || !area || !address){
+
+   alert("দয়া করে * চিহ্নিত সব তথ্য পূরণ করুন।");
+   return;
+
+ }
+
+ let message=
+ `🛍️ *Eyakub Shop Order*%0A%0A`;
+
+ message+=`👤 Name: ${name}%0A`;
+ message+=`📞 Phone: ${phone}%0A`;
+ message+=`🏙️ City: ${city}%0A`;
+ message+=`📍 Area: ${area}%0A`;
+ message+=`🏠 Address: ${address}%0A%0A`;
+
+ message+=`*Products:*%0A`;
+
+ cart.forEach((p,i)=>{
+
+   message+=
+   `${i+1}. ${p.name}%0A`+
+   `Size: ${p.size || "-"}%0A`+
+   `Color: ${p.color || "-"}%0A`+
+   `Price: ৳${p.price}%0A%0A`;
+
+ });
+
+ const total=cart.reduce((sum,p)=>sum+p.price,0);
+
+ message+=`💰 *Total: ৳${total}*`;
+
+ const url=
+   "https://wa.me/966567225245?text="+message;
+
+ window.open(url,"_blank");
+
+}
+
+
+/* =========================
+   MODAL
+   ========================= */
+
+function closeModal(id){
+
+ document.getElementById(id)
+   .classList.remove("show");
+
+}
+
+document.querySelectorAll(".modal")
+ .forEach(modal=>{
+
+   modal.addEventListener("click",e=>{
+
+     if(e.target===modal){
+       modal.classList.remove("show");
+     }
+
+   });
+
+ });
+
+
+/* START */
+
+renderProducts();
+
+</script>
 
 </body>
-            </html>
+  </html>
