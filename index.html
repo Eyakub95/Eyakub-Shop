@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EyakubShop – অনলাইন শপিং বাংলাদেশ</title>
+  <meta name="description" content="EyakubShop – জুতা, ফ্যাশন, ইলেকট্রনিক্সসহ সব পণ্য সেরা দামে। ক্যাশ অন ডেলিভারি।">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <span>📞 হটলাইন: <b id="topPhone"></b></span>
+    <span>🚚 সারা বাংলাদেশে ক্যাশ অন ডেলিভারি</span>
+  </div>
+</div>
+
+<header class="header">
+  <div class="container header-row">
+    <a href="#" class="logo" onclick="resetFilters();return false;">Eyakub<span>Shop</span></a>
+    <form class="search" onsubmit="event.preventDefault();doSearch();">
+      <input id="searchInput" type="search" placeholder="পণ্য খুঁজুন... (যেমন: জুতা, ঘড়ি)" autocomplete="off">
+      <button type="submit" aria-label="খুঁজুন">🔍</button>
+    </form>
+    <button class="cart-btn" onclick="openCart()">🛒 <span>কার্ট</span><b id="cartCount">0</b></button>
+  </div>
+</header>
+
+<nav class="cats">
+  <div class="container" id="catBar"></div>
+</nav>
+
+<main class="container">
+
+  <section class="hero">
+    <div>
+      <h1>মেগা সেল চলছে! 🔥</h1>
+      <p>সেরা মানের পণ্য, সেরা দামে – ৫০% পর্যন্ত ছাড়</p>
+      <a href="#products" class="btn">এখনই কিনুন</a>
+    </div>
+    <div class="hero-emoji">👟🛍️🎧</div>
+  </section>
+
+  <section class="features">
+    <div>🚚<b>দ্রুত ডেলিভারি</b><small>২–৫ কর্মদিবসে</small></div>
+    <div>💵<b>ক্যাশ অন ডেলিভারি</b><small>হাতে পেয়ে টাকা দিন</small></div>
+    <div>🔄<b>সহজ রিটার্ন</b><small>৭ দিনের মধ্যে</small></div>
+    <div>✅<b>১০০% অরিজিনাল</b><small>মান নিশ্চিত</small></div>
+  </section>
+
+  <section id="flashSection" class="block">
+    <div class="block-head">
+      <h2>⚡ ফ্ল্যাশ সেল</h2>
+      <div class="timer">শেষ হবে: <b id="timer">--:--:--</b></div>
+    </div>
+    <div class="grid" id="flashGrid"></div>
+  </section>
+
+  <section id="products" class="block">
+    <div class="block-head">
+      <h2 id="productsTitle">সব পণ্য</h2>
+      <select id="sortSelect" onchange="renderProducts()">
+        <option value="default">সাজান: ডিফল্ট</option>
+        <option value="low">দাম: কম থেকে বেশি</option>
+        <option value="high">দাম: বেশি থেকে কম</option>
+        <option value="popular">জনপ্রিয়</option>
+        <option value="rating">রেটিং</option>
+      </select>
+    </div>
+    <div class="grid" id="productGrid"></div>
+    <p id="emptyMsg" class="empty" hidden>দুঃখিত, কোনো পণ্য পাওয়া যায়নি 😕</p>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container footer-grid">
+    <div>
+      <h3>EyakubShop</h3>
+      <p>আপনার বিশ্বস্ত অনলাইন শপ। মানসম্মত পণ্য, ন্যায্য দাম।</p>
+    </div>
+    <div>
+      <h3>যোগাযোগ</h3>
+      <p>📞 <span id="footPhone"></span></p>
+      <p><a id="footWa" target="_blank" rel="noopener">💬 হোয়াটসঅ্যাপে মেসেজ করুন</a></p>
+      <p><a id="footFb" target="_blank" rel="noopener">📘 ফেসবুক পেজ</a></p>
+    </div>
+    <div>
+      <h3>তথ্য</h3>
+      <p>ডেলিভারি: ঢাকায় <span id="dIn"></span>, ঢাকার বাইরে <span id="dOut"></span></p>
+      <p>রিটার্ন পলিসি: ৭ দিন</p>
+    </div>
+  </div>
+  <div class="copy">© <span id="year"></span> EyakubShop. সর্বস্বত্ব সংরক্ষিত।</div>
+</footer>
+
+<a id="waFloat" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<!-- Product Modal -->
+<div class="modal" id="productModal" role="dialog" aria-modal="true"></div>
+
+<!-- Cart Drawer -->
+<aside class="drawer" id="cartDrawer">
+  <div class="drawer-head"><h3>🛒 আপনার কার্ট</h3><button onclick="closeAll()" aria-label="বন্ধ">✕</button></div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot" id="cartFoot"></div>
+</aside>
+
+<!-- Checkout Modal -->
+<div class="modal" id="checkoutModal" role="dialog" aria-modal="true">
+  <button class="modal-close" onclick="closeAll()" aria-label="বন্ধ">✕</button>
+  <h3>📦 অর্ডার করুন</h3>
+  <form id="checkoutForm" onsubmit="submitOrder(event)">
+    <label>আপনার নাম *<input name="name" required></label>
+    <label>মোবাইল নম্বর *<input name="phone" required pattern="01[0-9]{9}" inputmode="numeric" placeholder="01XXXXXXXXX"></label>
+    <label>জেলা *<select name="district" id="districtSel" required></select></label>
+    <label>সম্পূর্ণ ঠিকানা *<textarea name="address" rows="2" required placeholder="বাসা/রোড, এলাকা, থানা"></textarea></label>
+    <label>বিশেষ নির্দেশনা (ঐচ্ছিক)<input name="note"></label>
+    <div class="sum" id="checkoutSum"></div>
+    <p class="hint">পেমেন্ট: ক্যাশ অন ডেলিভারি। অর্ডার কনফার্ম করতে হোয়াটসঅ্যাপ খুলবে।</p>
+    <button class="btn btn-block" type="submit">✅ হোয়াটসঅ্যাপে অর্ডার কনফার্ম করুন</button>
+  </form>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="products.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

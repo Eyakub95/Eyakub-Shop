@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>EyakubShop – পণ্য যোগ করার টুল</title>
+<style>
+  body{font-family:system-ui,"Noto Sans Bengali",sans-serif;background:#f5f5f5;margin:0;padding:16px;color:#212121}
+  .wrap{max-width:760px;margin:0 auto;background:#fff;padding:20px;border-radius:12px}
+  h1{color:#f85606;margin-top:0;font-size:22px}
+  label{display:block;margin:10px 0;font-weight:600;font-size:14px}
+  input,select,textarea{width:100%;padding:10px;border:1px solid #ccc;border-radius:6px;font:inherit;margin-top:4px;box-sizing:border-box}
+  .g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  button{background:#f85606;color:#fff;border:0;padding:12px 18px;border-radius:8px;font:inherit;font-weight:700;cursor:pointer;margin:6px 6px 0 0}
+  button.alt{background:#212121}
+  textarea.out{height:240px;font-family:monospace;font-size:12px}
+  .note{background:#fff3ec;border-left:4px solid #f85606;padding:10px;border-radius:6px;font-size:14px;margin:12px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🛠️ নতুন পণ্য যোগ করার টুল</h1>
+  <div class="note">এই পেজটি শুধু কোড বানিয়ে দেয়। তৈরি হওয়া কোড কপি করে <b>products.js</b> ফাইলের <code>PRODUCTS</code> তালিকার ভিতরে পেস্ট করুন, তারপর GitHub-এ সেভ (commit) করুন। কয়েক মিনিটের মধ্যে সাইটে পণ্য দেখা যাবে।</div>
+
+  <form id="f">
+    <label>পণ্যের নাম *<input name="name" required></label>
+    <div class="g">
+      <label>ক্যাটাগরি<select name="category" id="cat"></select></label>
+      <label>স্টক সংখ্যা<input name="stock" type="number" value="10" min="0"></label>
+      <label>বর্তমান দাম (৳) *<input name="price" type="number" required min="1"></label>
+      <label>আগের দাম (ছাড় দেখাতে, না থাকলে ০)<input name="oldPrice" type="number" value="0" min="0"></label>
+    </div>
+    <label>সাইজ (কমা দিয়ে লিখুন, যেমন: 40,41,42) – না থাকলে ফাঁকা রাখুন<input name="sizes"></label>
+    <label>ছবির লিংক বা ফাইল পাথ (যেমন: images/shoe1.jpg)<input name="image" placeholder="images/shoe1.jpg"></label>
+    <label>বিবরণ<textarea name="desc" rows="2"></textarea></label>
+    <button type="submit">➕ তালিকায় যোগ করুন</button>
+    <button type="button" class="alt" onclick="copyOut()">📋 কোড কপি করুন</button>
+    <button type="button" class="alt" onclick="clearAll()">🗑 পরিষ্কার</button>
+  </form>
+
+  <label>তৈরি কোড (products.js এ পেস্ট করুন)<textarea class="out" id="out" readonly></textarea></label>
+</div>
+
+<script src="products.js"></script>
+<script>
+  const items = [];
+  let nextId = Math.max(...PRODUCTS.map(p => p.id)) + 1;
+  document.getElementById("cat").innerHTML = CATEGORIES.filter(c => c.id !== "all").map(c => `<option value="${c.id}">${c.name}</option>`).join("");
+
+  document.getElementById("f").addEventListener("submit", e => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    items.push({
+      id: nextId++,
+      name: f.get("name").trim(),
+      category: f.get("category"),
+      price: +f.get("price"),
+      oldPrice: +f.get("oldPrice") || 0,
+      rating: 4.5,
+      sold: 0,
+      stock: +f.get("stock") || 0,
+      sizes: f.get("sizes").split(",").map(s => s.trim()).filter(Boolean),
+      image: f.get("image").trim() || "https://placehold.co/500x500/f85606/ffffff?text=EyakubShop",
+      desc: f.get("desc").trim()
+    });
+    e.target.reset();
+    render();
+  });
+
+  function render() {
+    document.getElementById("out").value = items.map(i => "  " + JSON.stringify(i) + ",").join("\n");
+  }
+  function copyOut() {
+    const t = document.getElementById("out");
+    t.select(); document.execCommand("copy"); alert("কপি হয়েছে! এখন products.js এ পেস্ট করুন।");
+  }
+  function clearAll() { items.length = 0; render(); }
+</script>
+</body>
+</html>
